@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/main.css">
+        <title>Training-Records</title> 
+    </head>
+    <body>
+        <header class="header">
+            <div class="container header-flex">
+                <h1 class="banner">Training Records</h1>
+                <div class="average">
+                    <p><i class="fas fa-bicycle"></i> <span class="bike-avr"> 0</span> min/km</p> 
+                    <p><i class="fas fa-running"></i> <span class="run-avr"> 0</span> min/km</p>
+                </div>
+                <i class="add-btn fas fa-plus"></i>
+                    
+                <div class="clear"></div>
+            </div>
+        </header>
+
+        <section class="form-background">
+            <div class="form-wrapper">
+                <span class="close">&times;</span>
+                <form class="form">
+                    <h2 class="subtitle"><i class="fas fa-bicycle"></i> Cycling</h2>
+                    <div class="fieldset">
+                        <div class="row">
+                            <input type="text" name="bike-km" class="bike-km" placeholder="Distance in kilometer..." required>
+                            <label for="bike-km">Distance</label>
+                            <div class="border"></div>
+                        </div>
+                        <div class="row">
+                            <input type="text" name="bike-time" class="bike-time" placeholder="Time hh:mm:ss..." required>
+                            <label for="bike-time">Time</label>
+                            <div class="border"></div>
+                        </div>
+                    </div>
+
+                    <h2 class="subtitle"><i class="fas fa-running"></i> Running</h2>
+                    <div class="fieldset">
+                        <div class="row">
+                            <input type="text" name="run-km" class="run-km" placeholder="Distance in kilometer..." required>
+                            <label for="run-km">Distance</label>
+                            <div class="border"></div>
+                        </div>
+                        <div class="row">
+                            <input type="text" name="run-time" class="run-time" placeholder="Time   hh:mm:ss..." required>
+                            <label for="run-time">Time</label>
+                            <div class="border"></div>
+                        </div>
+                    </div>
+                    <button type="button" class="submit">Add to List</button>
+                </form>    
+            </div>
+        </section>
+
+        <section class="hero">
+        </section>
+
+        <section class="counter container">
+            <h2>Total KM: <span class="total-km"> 0</span>km</h2>
+            <h2>Total Records: <span class="total-records"> 0</span></h2>
+        </section>
+
+        <section class="container">
+            <table class="table">
+            <thead>
+                <tr>
+                    <th id="id" class="small"></th>
+                    <th id="bike" colspan="2">Cycling</th>
+                    <th id="run" colspan="2">Running</th>
+                    <th id="sum" colspan="2">Total</th>
+                    <td id="delete" class="small"></td>
+                </tr>
+                <tr>
+                    <td headers="id" class="small">#</td>
+                    <td headers="bike"><a href="#" class="bestBike-km bike">Distance</a></td>
+                    <td headers="bike"><a href="#" class="bestBike-time bike">Time</a></td>
+                    <td headers="run"><a href="#" class="bestRun-km run">Distance</a></td>
+                    <td headers="run"><a href="#" class="bestRun-time run">Time</a></td>
+                    <td headers="sum"><a href="#" class="bestTotal-km total">Distance</a></td>
+                    <td headers="sum"><a href="#" class="bestTotal-time total">Time</a></td>
+                    <td headers="delete" class="small"></td>
+                </tr>
+            </thead>
+            <tbody class="list">
+
+            </tbody>
+            </table>
+        </section>
+
+        <script src="js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather:300,400,400i,700,900');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Merriweather;
+    background-color: #e0e0e0
+}
+
+h1, p, form, input{
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.header-flex {
+    display: flex;
+}
+
+.header {
+    background-color: #0a0e50;
+    padding: 30px;
+    color: #c1ebf1;
+    box-shadow: 0 3px 5px rgba(0,0,0, .5);
+    position: relative;
+    z-index: 1;
+}
+
+.average {
+    flex-grow: 2;
+    display: flex;
+    justify-content: center;
+    line-height: 40px;
+}
+
+.average i {
+    font-size: 24px;
+}
+
+.average p {
+    margin: 0 35px;
+}
+
+.add-btn{
+    line-height: 40px;
+    cursor: pointer;
+    position: relative;
+    font-size: 25px;
+    transition: color .2s ease-in-out;
+
+}
+
+.add-btn:hover {
+    color: #fff;
+}
+
+.form-background {
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255, .5);
+    visibility: hidden;
+}
+
+.form-wrapper {
+    width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    padding: 20px;
+    background-color: #1b5299;
+    border-radius: 10px;
+    box-shadow: 0px 15px 20px rgba(0,0,0,.5);
+    opacity: 0;
+    transition: transform .15s linear;
+}
+
+
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    color: #c1ebf1;
+    cursor: pointer;
+    transition: color .2s ease-in-out;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+.subtitle {
+    text-align: center;
+    color: #fff;
+    padding: 0 0 20px;
+}
+
+.fieldset {
+    margin-bottom: 20px;
+}
+
+.fieldset input {
+    width: 100%;
+    padding: 25px 10px 5px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: transparent;
+    border-bottom: 2px solid #fff;
+    color: #fff;
+    box-shadow: none;
+}
+
+.fieldset input::placeholder {
+    text-align: center;
+}
+
+.row {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.fieldset label {
+    position: absolute;
+    left: 0;
+    top: 15px;
+    color: #fff;
+    font-weight: 700;
+    transition: all .3s linear;
+    pointer-events: none;
+}
+
+.fieldset input:focus + label,
+.fieldset input:valid + label {
+    top: 0;
+    color: rgb(27, 172, 14);
+    font-size: 14px;
+}
+
+.border {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: rgb(27, 172, 14);
+    transition: all .2s linear;
+}
+
+.fieldset input:valid {
+    border-bottom-color: rgb(27, 172, 14);
+}
+
+.fieldset input:focus ~ .border {
+    width: 100%;
+}
+
+.submit {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #c1ebf1;
+    border: none;
+    color: #1b5299;
+    border-radius: 5px;
+    box-shadow: inset 3px 3px 10px rgba(255,255,255, .6);
+}
+
+.submit:active {
+    box-shadow: inset 3px 3px 10px rgba(0,0,0, .4);
+}
+
+.form-background.open {
+    visibility: visible;
+}
+
+.form-wrapper.open {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.hero {
+    background-image: url(../hero.jpg);
+    background-position: center 40%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 25vh;
+    margin-bottom: 40px;
+}
+
+.counter {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.container h2 {
+    color: #0a0e50;
+    font-weight: 900;
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+tr, th, td {
+    border: 2px solid rgb(3, 3, 41);
+    padding: 8px;
+    color: #c1ebf1;
+    background: linear-gradient(to bottom, #0a0e50 0%, rgb(4, 6, 48) )
+}
+
+th {
+    font-size: 22px;
+}
+
+table a {
+    color: #c1ebf1;
+    text-decoration: none;
+}
+
+table a:hover {
+    text-decoration: underline;
+}
+
+.small {
+    width: 50px;
+}
+
+.delete a {
+    color: #c1ebf1;
+    text-decoration: none;
+    transition: color .2s ease-in-out;
+    padding: 8px;
+}
+
+.delete:hover {
+    background: rgb(136, 19, 19);
+}
+
+.message {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    border: transparent 2px solid;
+}
+
+.alert {
+    color: rgb(136, 19, 19);
+    border-color: rgb(136, 19, 19);
+    background-color: rgb(223, 110, 110);
+}
+
+
