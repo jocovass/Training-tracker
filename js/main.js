@@ -34,13 +34,14 @@ const LsCtrl = (function() {
 const ItemCtrl = (function() {
     //new resutl object constructor
     const Result = function(item) {
-        this.bikeKm = item.bikeKm;
+        this.bikeKm = item.bikeKm === "" ? 0 : item.bikeKm;
         this.bikeTime = item.bikeTime;
-        this.runKm = item.runKm;
+        this.runKm = item.runKm === "" ? 0 : item.runKm;
         this.runTime = item.runTime;
         this.totalKm = item.totalKm();
         this.totalTime = item.totalTime();
         this.id = item.id;
+        this.date = item.date;
     };
 
     return {
@@ -123,7 +124,8 @@ const UiCtrl = (function(LsCtrl) {
                 cell6 = newRow.insertCell(5),
                 cell7 = newRow.insertCell(6);
                 cell8 = newRow.insertCell(7);
-        
+            
+            newRow.setAttribute("title", task.date);
             //set each cell content individually
             cell1.textContent = index + 1;
             cell1.className = "small order";
@@ -166,18 +168,19 @@ const UiCtrl = (function(LsCtrl) {
                         cell7 = newRow.insertCell(6);
                         cell8 = newRow.insertCell(7);
                 
+                newRow.setAttribute("title", item.date);
                 //set each cell content individually
                 cell1.textContent = tasks.length + 1;
                 cell1.className = "small order";
                 cell1.setAttribute("headers", "id");
                 
-                cell2.textContent = item.bikeKm === "" ? 0 + "km": item.bikeKm + "km";
+                cell2.textContent = item.bikeKm + "km";
                 cell2.setAttribute("headers", "bike");
                 
                 cell3.textContent = item.bikeTime;
                 cell3.setAttribute("headers", "bike");
                 
-                cell4.textContent = item.runKm === "" ? 0 + "km": item.runKm + "km";
+                cell4.textContent = item.runKm + "km";
                 cell4.setAttribute("headers", "run");
 
                 cell5.textContent = item.runTime;
@@ -279,8 +282,7 @@ const AppCtrl = (function(LsCtrl, UiCtrl, ItemCtrl) {
         UiCtrl.drawList(tasks);
 
         //average min/km
-        avrKmTime("bike");
-        avrKmTime("run");
+        avrKmTime();
 
         //recalc total KM
         calcTotalKm();
@@ -304,6 +306,7 @@ const AppCtrl = (function(LsCtrl, UiCtrl, ItemCtrl) {
                 return addTimesTogether(this.bikeTime, this.runTime);
             },
             id: tasks.length > 0 ?  tasks[tasks.length - 1].id + 1 : 0,
+            date: new Date().toDateString(),
         };
 
         if(item.bikeKm !== "" || item.runKm !== "") {
@@ -326,8 +329,7 @@ const AppCtrl = (function(LsCtrl, UiCtrl, ItemCtrl) {
                 UiCtrl.toggleForm();
 
                 //average min/km
-                avrKmTime("bike");
-                avrKmTime("run");
+                avrKmTime();
                 
             } else {
                 UiCtrl.displayMessage("Please enter the right format (hh:mm:ss)!!", "alert");
@@ -350,8 +352,7 @@ const AppCtrl = (function(LsCtrl, UiCtrl, ItemCtrl) {
                 LsCtrl.removeItemFromLs(id);
 
                 //average min/km
-                avrKmTime("bike");
-                avrKmTime("run");
+                avrKmTime();
 
                 //recalc total KM
                 calcTotalKm();
@@ -519,55 +520,74 @@ const AppCtrl = (function(LsCtrl, UiCtrl, ItemCtrl) {
         if(e.target.classList.contains("bike")) {
 
             tasks.sort(function(a, b) {
-                return hourFormat(a.bikeTime) - hourFormat(b.bikeTime);
+                return secondFormat(a.bikeTime) - secondFormat(b.bikeTime);
             });
         } else if(e.target.classList.contains("run")) {
             tasks.sort(function(a, b) {
-                return hourFormat(a.runTime) - hourFormat(b.runTime);
+                return secondFormat(a.runTime) - secondFormat(b.runTime);
             })
         } else if(e.target.classList.contains("total")) {
             tasks.sort(function(a, b) {
-                return hourFormat(a.totalTime) - hourFormat(b.totalTime);
+                return secondFormat(a.totalTime) - secondFormat(b.totalTime);
             })
         }
         UiCtrl.showBest(tasks);
     };
 
     //transform TIME  in HOURS
-    const hourFormat = function(time) {
+    const secondFormat = function(time) {
 
         const timeArr = time.split(":");
-        const seconds = parseInt(timeArr[2], 10) / 60;
-        const minutes = (parseInt(timeArr[1], 10) + seconds) / 60;
-        const hours = (parseInt(timeArr[0], 10) + minutes);
-        return hours;
+        const hours = parseInt(timeArr[0], 10) * 3600;
+        const minutes = parseInt(timeArr[1], 10) * 60;
+        const seconds = parseInt(timeArr[2], 10) + minutes + hours;
+        return seconds;
     };
 
-    //how much is the average time per km
-    const avrKmTime = function (type) {
+    // how much is the average time per km
+    const avrKmTime = function () {
         const tasks = LsCtrl.getItemsFromLs();
         let timeB = 0;
         let kmB = 0;
         let avrB = 0;
+        let avrBT = 0;
 
         let timeR = 0;
         let kmR = 0;
         let avrR = 0;
+        let avrRT = 0;
         if(tasks.length > 0) {
             tasks.forEach(function(task) {
-                timeB += hourFormat(task.bikeTime);
+                timeB += secondFormat(task.bikeTime);
                 kmB += task.bikeKm;
 
-                timeR += hourFormat(task.runTime);
+                timeR += secondFormat(task.runTime);
                 kmR += task.runKm;
             });
 
-            avrB = isNaN((timeB * 60 / kmB).toFixed(2)) ? 0 : (timeB * 60 / kmB).toFixed(2);
-            avrR = isNaN((timeR * 60 / kmR).toFixed(2)) ? 0 : (timeR * 60 / kmR).toFixed(2);
+            avrB = isNaN(timeB / kmB) ? 0 : timeB / kmB;
+            avrR = isNaN(timeR / kmR) ? 0 : timeR / kmR;
+
+            if(avrB !== 0)  avrBT = secondsToMins(avrB);
+            if(avrR !== 0)  avrRT = secondsToMins(avrR);
         }
         
-        UiCtrl.showAvr(avrB, avrR);
-    }
+        UiCtrl.showAvr(avrBT, avrRT);
+    };
+
+    //convert the average time from seconds back to minutes
+    const secondsToMins = function(time) {
+
+        let min = 0;
+        let sec = 0;
+        if(time >= 60) {
+            min = (time / 60) << 0;
+            sec = (time - (min * 60)).toFixed(0);
+        }
+
+        return min + ":" + ("0" + sec).slice(-2);
+    };
+
 
     return {
         init: function() {
